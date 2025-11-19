@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Voice Search Demo</title>
+</head>
+<body>
+  <button onclick="startVoice()">🎤 Bấm để nói</button>
+  <p id="result">Kết quả: ...</p>
+
+  <script>
+    function startVoice() {
+      var recognition = new webkitSpeechRecognition();
+      recognition.lang = "vi-VN";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onresult = function(event) {
+        var transcript = event.results[0][0].transcript;
+        document.getElementById("result").innerText = "Kết quả: " + transcript;
+      };
+
+      recognition.onerror = function(event) {
+        alert("Lỗi: " + event.error);
+      };
+
+      recognition.start();
+    }
+  </script>
+</body>
+</html>
