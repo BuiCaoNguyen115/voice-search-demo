@@ -9,23 +9,32 @@
   <p id="result">Kết quả: ...</p>
 
   <script>
-    function startVoice() {
-      var recognition = new webkitSpeechRecognition();
-      recognition.lang = "vi-VN";
-      recognition.continuous = false;
-      recognition.interimResults = false;
+function startVoice() {
+  try {
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = "vi-VN";
+    recognition.continuous = false;
+    recognition.interimResults = false;
 
-      recognition.onresult = function(event) {
-        var transcript = event.results[0][0].transcript;
-        document.getElementById("result").innerText = "Kết quả: " + transcript;
-        window.parent.postMessage(transcript, "*");
-      };
+    recognition.onresult = function(event) {
+      var transcript = event.results[0][0].transcript;
+      document.getElementById("result").innerText = "Kết quả: " + transcript;
+      window.parent.postMessage(transcript, "*");
+    };
 
-      recognition.onerror = function(event) {
+    recognition.onerror = function(event) {
+      if (event.error === "not-allowed") {
+        alert("Trình duyệt không cho phép truy cập micro. Hãy kiểm tra quyền trong phần cài đặt.");
+      } else {
         alert("Lỗi: " + event.error);
-      };
+      }
+    };
 
-      recognition.start();
+    recognition.start();
+  } catch (e) {
+    alert("Không thể khởi động nhận diện giọng nói: " + e.message);
+  }
+}
     }
   </script>
 </body>
