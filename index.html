@@ -18,6 +18,7 @@
       recognition.onresult = function(event) {
         var transcript = event.results[0][0].transcript;
         document.getElementById("result").innerText = "Kết quả: " + transcript;
+        window.parent.postMessage(transcript, "*");
       };
 
       recognition.onerror = function(event) {
